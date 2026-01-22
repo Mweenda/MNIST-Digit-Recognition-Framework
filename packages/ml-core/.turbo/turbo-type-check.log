@@ -1,0 +1,5 @@
+
+
+> @repo/ml-core@1.0.0 type-check /home/t043r/Personal/Ml-Internship/MNIST-app/packages/ml-core
+> tsc --noEmit
+

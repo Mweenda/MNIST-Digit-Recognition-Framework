@@ -1,0 +1,51 @@
+
+
+> @repo/shared@1.0.0 test /home/t043r/Personal/Ml-Internship/MNIST-app/packages/shared
+> vitest run
+
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90m/home/t043r/Personal/Ml-Internship/MNIST-app/packages/shared[39m
+
+[?25l [90m·[39m [2mtests/[22mml-schema[2m.test.ts[22m[2m (10)[22m
+   [90m·[39m PredictInputSchema - Security Perimeter[2m (10)[22m
+     [90m·[39m accepts minimal valid PNG Data URL
+     [90m·[39m rejects empty image data
+     [90m·[39m rejects payload exceeding 64KB
+     [90m·[39m rejects jpeg media type smuggling
+     [90m·[39m rejects raw base64 without data url prefix
+     [90m·[39m rejects whitespace in base64 payload
+     [90m·[39m rejects newline injection attempt
+     [90m·[39m rejects invalid padding (3 equals)
+     [90m·[39m rejects trailing script injection
+     [90m·[39m rejects extra keys (strict object)
+[?25l[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G [32m✓[39m [2mtests/[22mml-schema[2m.test.ts[22m[2m (10)[22m
+   [32m✓[39m PredictInputSchema - Security Perimeter[2m (10)[22m
+     [32m✓[39m accepts minimal valid PNG Data URL
+     [32m✓[39m rejects empty image data
+     [32m✓[39m rejects payload exceeding 64KB
+     [32m✓[39m rejects jpeg media type smuggling
+     [32m✓[39m rejects raw base64 without data url prefix
+     [32m✓[39m rejects whitespace in base64 payload
+     [32m✓[39m rejects newline injection attempt
+     [32m✓[39m rejects invalid padding (3 equals)
+     [32m✓[39m rejects trailing script injection
+     [32m✓[39m rejects extra keys (strict object)
+[?25l[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G [32m✓[39m [2mtests/[22mml-schema[2m.test.ts[22m[2m (10)[22m
+   [32m✓[39m PredictInputSchema - Security Perimeter[2m (10)[22m
+     [32m✓[39m accepts minimal valid PNG Data URL
+     [32m✓[39m rejects empty image data
+     [32m✓[39m rejects payload exceeding 64KB
+     [32m✓[39m rejects jpeg media type smuggling
+     [32m✓[39m rejects raw base64 without data url prefix
+     [32m✓[39m rejects whitespace in base64 payload
+     [32m✓[39m rejects newline injection attempt
+     [32m✓[39m rejects invalid padding (3 equals)
+     [32m✓[39m rejects trailing script injection
+     [32m✓[39m rejects extra keys (strict object)
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m 09:21:50
+[2m   Duration [22m 903ms[2m (transform 112ms, setup 1ms, collect 128ms, tests 18ms, environment 0ms, prepare 198ms)[22m
+
+[?25h[?25h

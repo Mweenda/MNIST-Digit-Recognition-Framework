@@ -1,0 +1,5 @@
+
+
+> @repo/api@1.0.0 type-check /home/t043r/Personal/Ml-Internship/MNIST-app/apps/api
+> tsc --noEmit
+
