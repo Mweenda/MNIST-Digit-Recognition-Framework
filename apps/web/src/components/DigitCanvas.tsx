@@ -1,30 +1,40 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Camera, Trash2, Brain, CheckCircle, AlertCircle } from 'lucide-react';
+import { Trash2, Brain, CheckCircle, AlertCircle, Camera } from 'lucide-react';
+
+interface PredictionResult {
+  digit: number;
+  confidence: string;
+}
+
+interface ModelState {
+  loaded: boolean;
+}
 
 const MNISTDigitRecognition = () => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [prediction, setPrediction] = useState(null);
-  const [confidence, setConfidence] = useState(null);
-  const [model, setModel] = useState(null);
+  const [prediction, setPrediction] = useState<number | null>(null);
+  const [confidence, setConfidence] = useState<string | null>(null);
+  const [model, setModel] = useState<ModelState | null>(null);
   const [modelStatus, setModelStatus] = useState('loading');
-  const [allPredictions, setAllPredictions] = useState([]);
+  const [allPredictions, setAllPredictions] = useState<PredictionResult[]>([]);
 
   // Initialize canvas and model
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = 'black';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
+      if (ctx) {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      }
     }
 
     // Simulate model loading
     const loadModel = async () => {
       setModelStatus('loading');
-      // Simulate async model loading delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       setModel({ loaded: true });
       setModelStatus('ready');
@@ -33,11 +43,13 @@ const MNISTDigitRecognition = () => {
     loadModel();
   }, []);
 
-  const startDrawing = (e) => {
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     setIsDrawing(true);
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -46,12 +58,14 @@ const MNISTDigitRecognition = () => {
     ctx.moveTo(x, y);
   };
 
-  const draw = (e) => {
+  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;
 
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -71,7 +85,9 @@ const MNISTDigitRecognition = () => {
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setPrediction(null);
@@ -81,26 +97,22 @@ const MNISTDigitRecognition = () => {
 
   const preprocessCanvas = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return [];
     const ctx = canvas.getContext('2d');
+    if (!ctx) return [];
     
-    // Get image data and resize to 28x28
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const pixels = imageData.data;
-    
-    // Create a temporary canvas for downsampling
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = 28;
     tempCanvas.height = 28;
     const tempCtx = tempCanvas.getContext('2d');
+    if (!tempCtx) return [];
     
-    // Draw scaled down version
     tempCtx.drawImage(canvas, 0, 0, 28, 28);
     const smallImageData = tempCtx.getImageData(0, 0, 28, 28);
     
-    // Normalize pixel values to [0, 1]
     const normalized = [];
     for (let i = 0; i < smallImageData.data.length; i += 4) {
-      // Average RGB channels and normalize
       const avg = (smallImageData.data[i] + smallImageData.data[i + 1] + smallImageData.data[i + 2]) / 3;
       normalized.push(avg / 255);
     }
@@ -109,17 +121,13 @@ const MNISTDigitRecognition = () => {
   };
 
   const predictDigit = () => {
-    // Preprocess the canvas
     const inputData = preprocessCanvas();
     
-    // Simulate CNN prediction (in production, this would use TensorFlow.js)
-    // For demo purposes, we'll create realistic-looking predictions
     const simulatePrediction = () => {
       const predictions = new Array(10).fill(0).map(() => Math.random() * 0.3);
       const predictedDigit = Math.floor(Math.random() * 10);
       predictions[predictedDigit] = 0.7 + Math.random() * 0.3;
       
-      // Normalize to sum to 1
       const sum = predictions.reduce((a, b) => a + b, 0);
       const normalized = predictions.map(p => p / sum);
       
@@ -128,13 +136,12 @@ const MNISTDigitRecognition = () => {
 
     const result = simulatePrediction();
     setPrediction(result.digit);
-    setConfidence((result.probabilities[result.digit] * 100).toFixed(1));
+    setConfidence(((result.probabilities[result.digit] * 100)).toFixed(1));
     
-    // Store all predictions for visualization
     const predictionData = result.probabilities.map((prob, idx) => ({
       digit: idx,
-      confidence: (prob * 100).toFixed(1)
-    })).sort((a, b) => b.confidence - a.confidence);
+      confidence: ((prob * 100)).toFixed(1)
+    })).sort((a, b) => parseFloat(b.confidence) - parseFloat(a.confidence));
     
     setAllPredictions(predictionData);
   };
