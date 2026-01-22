@@ -6,8 +6,10 @@ const server = createHTTPServer({
   createContext: () => ({}),
 })
 
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3001
+const PORT = parseInt(process.env.PORT || '3001', 10)
 
-server.listen(PORT)
+// Start server
 console.log(`🚀 MNIST API Server running on http://localhost:${PORT}`)
 console.log(`📊 Ready for predictions on /ml/predict`)
+
+export default server
