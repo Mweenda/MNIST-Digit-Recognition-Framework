@@ -1,2 +1,9 @@
-// Placeholder entrypoint for ml-core
-export const placeholder = true
+// Export augmentation module
+export {
+  rotateAugmentation,
+  shiftAugmentation,
+  zoomAugmentation,
+  shearAugmentation,
+  augmentImage,
+  type AugmentationConfig,
+} from './augmentation';

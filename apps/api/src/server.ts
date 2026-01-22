@@ -6,9 +6,8 @@ const server = createHTTPServer({
   createContext: () => ({}),
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3001
 
-server.listen(PORT as number, () => {
-  console.log(`🚀 MNIST API Server running on http://localhost:${PORT}`)
-  console.log(`📊 Ready for predictions on /ml/predict`)
-})
+server.listen(PORT)
+console.log(`🚀 MNIST API Server running on http://localhost:${PORT}`)
+console.log(`📊 Ready for predictions on /ml/predict`)
